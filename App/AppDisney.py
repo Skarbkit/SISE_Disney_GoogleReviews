@@ -13,6 +13,8 @@ import streamlit as st  # 🎈 data web app development
 from sqlalchemy import create_engine
 from streamlit_option_menu import option_menu
 import streamlit as st
+from textblob import Blobber
+from textblob_fr import PatternTagger, PatternAnalyzer
 
 from wordcloud import WordCloud
 import matplotlib.pyplot as plt
@@ -27,8 +29,12 @@ os.chdir(r"C:\Users\f_ati\Documents\Master2\TextMining\Projet\App\data")
 
 #import pandas
 import pandas as pd
-disneys_Hotel_NewYork = pd.read_csv("Disney_Hotel_NewYork.csv",sep=",",header=0)
+Disneys_Hotel_NewYork = pd.read_csv("Disney_Hotel_NewYork.csv",sep=",",header=0)
 Disneys_Davy_Crocket_Ranch=pd.read_csv("Disney_Davy_Crocket_Ranch.csv",sep=",",header=0)
+Disney_Hotel_Cheyenne = pd.read_csv("Disney_Hotel_Cheyenne.csv",sep=",",header=0)
+Disney_Hotel_Santa_Fe=pd.read_csv("Disney_Hotel_Santa_Fe.csv",sep=",",header=0)
+Disney_Sequoia_Lodge=pd.read_csv("Disney_Sequoia_Lodge.csv",sep=",",header=0)
+Disney_Newport_Bay_Club=pd.read_csv("Disney_Newport_Bay_Club.csv",sep=",",header=0)
 
 
 
@@ -82,6 +88,9 @@ elif choose == "Data":
 ################################################## ANALYSE PARC #################################################################################  
 elif choose == "Analyse Parc":
     st.write("# Google Review Analyzer 🎆🪄 ")
+    
+   
+
     #Import of the 'sitereview' table 
     
     #query_ReviewText_park = "SELECT ReviewText,RewiewVisite FROM sitereview "
@@ -107,9 +116,15 @@ elif choose == "Analyse Hotel":
     
     
     #création d'une nouvelle colonne avce uniquement le commentaire traduit
-    disneys_Hotel_NewYork['Review Text'] = disneys_Hotel_NewYork['Review Text'].apply(lambda x: find_between(str(x), "(Traduit par Google)" ,"(Avis d'origine)"))
+    Disneys_Hotel_NewYork['Review Text'] = Disneys_Hotel_NewYork['Review Text'].apply(lambda x: find_between(str(x), "(Traduit par Google)" ,"(Avis d'origine)"))
     Disneys_Davy_Crocket_Ranch['Review Text'] = Disneys_Davy_Crocket_Ranch['Review Text'].apply(lambda x: find_between(str(x), "(Traduit par Google)" ,"(Avis d'origine)"))
     
+    Disney_Hotel_Cheyenne['Review Text'] = Disney_Hotel_Cheyenne['Review Text'].apply(lambda x: find_between(str(x), "(Traduit par Google)" ,"(Avis d'origine)"))
+    Disney_Hotel_Santa_Fe['Review Text'] = Disney_Hotel_Santa_Fe['Review Text'].apply(lambda x: find_between(str(x), "(Traduit par Google)" ,"(Avis d'origine)"))
+   
+    Disney_Sequoia_Lodge['Review Text'] = Disney_Sequoia_Lodge['Review Text'].apply(lambda x: find_between(str(x), "(Traduit par Google)" ,"(Avis d'origine)"))
+    Disney_Newport_Bay_Club['Review Text'] = Disney_Newport_Bay_Club['Review Text'].apply(lambda x: find_between(str(x), "(Traduit par Google)" ,"(Avis d'origine)"))
+   
     stwf = [word for word in stwf if word not in stopwords.words('french')]
     stwf.extend([word for word in stwf if (len(word) > 3)])
     stwf.extend(['zero','un','deux','trois','quatre','cinq','six','sept','huit','neuf','dix','plus','très','parc','tout','disney','disneyland','sud','si','le','nous','de','et','la','les','vous','pour','que','pas','est','il','je','des',
@@ -121,38 +136,65 @@ elif choose == "Analyse Hotel":
 
 ########################################## PLOT ######################################################
 
+    
 
-
-
-    row1_1, row1_2 = st.columns((1,1))
-    tab1, tab2 = st.tabs(["World Cloud Disney's Hotel NewYork", "  Disneys_Davy_Crocket_Ranch World Cloud "])
+    
+    tab1, tab2, tab3,tab4,tab5,tab6 = st.tabs(["World Cloud Disney's Hotel NewYork", "World Cloud Disneys_Davy_Crocket_Ranch","World Cloud Disney_Hotel_Cheyenne","World Cloud Disney_Hotel_Santa_Fe","World Cloud Disney_Sequoia_Lodge","World Cloud Disney_Newport_Bay_Club"])
 
     st.set_option('deprecation.showPyplotGlobalUse', False)
     #WORD CLOUD POUR TOUS
-    text = disneys_Hotel_NewYork['Review Text'].str.cat(sep=' ')
     stopwords =stwf
+    text = Disneys_Hotel_NewYork['Review Text'].str.cat(sep=' ')
     wordcloud = WordCloud(colormap='twilight',background_color='white',stopwords=stopwords).generate(text)
     text1 = Disneys_Davy_Crocket_Ranch['Review Text'].str.cat(sep=' ')
     wordcloud1 = WordCloud(colormap='twilight',background_color='white',stopwords=stopwords).generate(text1)
-    # Afficher le wordcloud
-    plt.imshow(wordcloud, interpolation='bilinear')
-    plt.axis("off")
-    #plt.show()
+   
+    text2 = Disney_Hotel_Cheyenne['Review Text'].str.cat(sep=' ')
+    wordcloud2 = WordCloud(colormap='twilight',background_color='white',stopwords=stopwords).generate(text2)
+    text3 = Disney_Hotel_Santa_Fe['Review Text'].str.cat(sep=' ')
+    wordcloud3 = WordCloud(colormap='twilight',background_color='white',stopwords=stopwords).generate(text3)
+    
+    text4 = Disney_Sequoia_Lodge['Review Text'].str.cat(sep=' ')
+    wordcloud4 = WordCloud(colormap='twilight',background_color='white',stopwords=stopwords).generate(text4)
+    text5 = Disney_Newport_Bay_Club['Review Text'].str.cat(sep=' ')
+    wordcloud5 = WordCloud(colormap='twilight',background_color='white',stopwords=stopwords).generate(text5)
+    
+   
+    
     with tab1:
-       
+        # Afficher le wordcloud
+        plt.imshow(wordcloud, interpolation='bilinear')
+        plt.axis("off")
         st.pyplot()
     with tab2:
         plt.imshow(wordcloud1, interpolation='bilinear')
         plt.axis("off")
        
         st.pyplot()
+    with tab3:
+         # Afficher le wordcloud
+         plt.imshow(wordcloud2, interpolation='bilinear')
+         plt.axis("off")
+         st.pyplot()
+    with tab4:
+         plt.imshow(wordcloud3, interpolation='bilinear')
+         plt.axis("off")
+        
+         st.pyplot()
+    with tab5:
+         # Afficher le wordcloud
+         plt.imshow(wordcloud4, interpolation='bilinear')
+         plt.axis("off")
+         st.pyplot()
+    with tab6:
+         plt.imshow(wordcloud5, interpolation='bilinear')
+         plt.axis("off")
+        
+         st.pyplot()
+    
+    
     
     
 
-    
-    
-    
-    
-    
-    
+
   
