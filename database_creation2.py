@@ -36,9 +36,9 @@ else:
       RewiewVisite varchar(255),
       ReviewText CLOB ,
       VoyageType varchar(255),
-      RoomRate NUMBER(2,1),
-      EmplacementRate NUMBER(2,1),
-      ServiceRate NUMBER(2,1),
+      RoomRate int,
+      EmplacementRate int,
+      ServiceRate int,
       HostelType int,
       FOREIGN KEY (HostelType) REFERENCES structure(ID)
   )''')
@@ -55,7 +55,7 @@ else:
       ReviewRate int,
       ReviewTime varchar(255),
       RewiewVisite varchar(255),
-      ReviewText VARCHAR2(4000),
+      ReviewText CLOB,
       SiteType int,
       FOREIGN KEY (SiteType) REFERENCES structure(ID)
   )''')
