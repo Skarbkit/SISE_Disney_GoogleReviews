@@ -59,12 +59,12 @@ else:
       Name varchar(255),
       ReviewRate int,
       ReviewTime varchar(255),
-      RewiewVisite varchar(255),
+      ReviewVisite varchar(255),
       ReviewText text,
       VoyageType varchar(255),
-      RoomRate int,
-      ServiceRate int,
-      EmplacementRate int,
+      RoomRate double,
+      EmplacementRate double,
+      ServiceRate double,
       HostelType int,
       FOREIGN KEY (HostelType) REFERENCES structure(ID)
   );''')
