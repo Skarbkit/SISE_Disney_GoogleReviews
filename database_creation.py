@@ -8,7 +8,24 @@ mydb = mysql.connector.connect(
   password="1930"
 )
 
-#mycursor = mydb.cursor()
+cursor = mydb.cursor()
+
+cursor.execute("SHOW DATABASES")
+db = [db[0] for db in cursor.fetchall()]
+
+if "disney" in db:
+  print("disney already exists")
+else:
+  cursor.execute("CREATE DATABASE disney")
+
+mydb = mysql.connector.connect(
+  host="localhost",
+  database='disney',
+  user="root",
+  password="1930"
+)
+
+mycursor = mydb.cursor()
 if mydb.is_connected():
         db_Info = mydb.get_server_info()
         print("Connected to MySQL Server version ", db_Info)
