@@ -54,7 +54,7 @@ else:
       Name varchar(255),
       ReviewRate int,
       ReviewTime varchar(255),
-      RewiewVisite varchar(255),
+      ReviewVisite varchar(255),
       ReviewText CLOB,
       SiteType int,
       FOREIGN KEY (SiteType) REFERENCES structure(ID)
