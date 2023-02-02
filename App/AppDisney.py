@@ -84,7 +84,7 @@ stwf = [word for word in stwf if word not in stopwords.words('french')]
 stwf.extend([word for word in stwf if (len(word) > 3)])
 stwf.extend(['zero','un','deux','trois','quatre','cinq','six','sept','huit','neuf','dix','plus','très','parc','tout','disney','disneyland','sud','si','le','nous','de','et','la','les','vous','pour','que','pas','est','il','je','des',
              'des','une','en','dans','était','ai','ne','été','au','ils','sont','du','avec','mais','ne','qui','ce','qu','fois','avons','petit','plus','même','car','ma','vraiment','ou','par','ont','chambres','moins','notre','paris','chien','à',"c'est","a","cela",
-             "sur","br","sommes","j'ai","ce","y","peu","au","jour","faire","être","se","tous","'","donc","qu'il","qu'elle","l'hôtel","n'est","d'une","c'était","votre","ça","ici","étaient"])
+             "sur","br","sommes","hôtel","hôtels","j'ai","ce","y","peu","au","jour","faire","être","se","tous","'","donc","qu'il","qu'elle","l'hôtel","n'est","d'une","c'était","votre","ça","ici","étaient"])
 
 stopwords =stwf
 ############################################ Filtre #############################################################
