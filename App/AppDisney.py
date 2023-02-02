@@ -534,11 +534,37 @@ elif choose == "Analyse Hotel":
     
     
    #WORD CLOUD POUR TOUS
+    
    
+   
+    senti_list = []
+    for i in filtered["Review Text"]:
+       vs = tb(i).sentiment[0]
+       if (vs > 0):
+           senti_list.append('Positive')
+       elif (vs < 0):
+           senti_list.append('Negative')
+       else:
+           senti_list.append('Neutral')
+   
+    filtered["sentiment"]=senti_list
+    filtered["sentiment"]=filtered["sentiment"].astype('category')
+    
+    option_sent = ['Positive','Negative']
+       
+       # Create a dropdown menu
+    selected_sent= st.selectbox("Select sentiment to filter by:", option_sent)
+  
     stopwords =stwf
     text = filtered['Review Text'].str.cat(sep=' ')
-    wordcloud = WordCloud(width = 3000, height = 2000, random_state=1, background_color='black', colormap='Set2', collocations=False,stopwords=stopwords).generate(text)
     
+    positve=filtered.loc[filtered['sentiment']== 'Positive']
+    negative=filtered.loc[filtered['sentiment']== 'Negative']
+    text_pos=positve['Review Text'].str.cat(sep=' ')
+    text_neg=negative['Review Text'].str.cat(sep=' ')
+    
+    wordcloud_pos = WordCloud(width = 3000, height = 2000, random_state=1,background_color='black', colormap='Set2', collocations=False,stopwords=stopwords).generate(text_pos)
+    wordcloud_neg = WordCloud(width = 3000, height = 2000, random_state=1, background_color='black', colormap='Set2', collocations=False,stopwords=stopwords).generate(text_neg)
  
     # Graphique Histogramme fréquence mots
    
@@ -549,38 +575,45 @@ elif choose == "Analyse Hotel":
     
     if selected_option=="Hotel_NewYork":
         # Afficher le wordcloud
-        
-        plt.imshow(wordcloud, interpolation='bilinear')
-        plt.axis("off")
-        plt.xticks([])
-        plt.yticks([])
-       
-        st.pyplot()
+        if selected_sent=="Positive":
+            plt.imshow(wordcloud_pos, interpolation='bilinear')
+            #plt.imshow(wordcloud_neg, interpolation='bilinear')
+            plt.axis("off")
+            plt.xticks([])
+            plt.yticks([])
+            st.pyplot()
+        if selected_sent=="Negative":
+            plt.imshow(wordcloud_neg, interpolation='bilinear')
+            #plt.imshow(wordcloud_neg, interpolation='bilinear')
+            plt.axis("off")
+            plt.xticks([])
+            plt.yticks([])
+            st.pyplot()
     elif selected_option=="Davy_Crocket_Ranch":
-        plt.imshow(wordcloud, interpolation='bilinear')
+        plt.imshow(wordcloud_pos, interpolation='bilinear')
         plt.axis("off")
        
         st.pyplot()
         
     elif selected_option=="Hotel_Cheyenne":
          # Afficher le wordcloud
-         plt.imshow(wordcloud, interpolation='bilinear')
+         plt.imshow(wordcloud_pos, interpolation='bilinear')
          plt.axis("off")
          
          st.pyplot()
     elif selected_option=="Hotel_Santa_Fe":
-         plt.imshow(wordcloud, interpolation='bilinear')
+         plt.imshow(wordcloud_pos, interpolation='bilinear')
          plt.axis("off")
          
          st.pyplot()
     elif selected_option=="Sequoia_Lodge":
          # Afficher le wordcloud
-         plt.imshow(wordcloud, interpolation='bilinear')
+         plt.imshow(wordcloud_pos, interpolation='bilinear')
          plt.axis("off")
          plt.title("Nuage de mots ")
          st.pyplot()
     elif selected_option=="Newport_Bay_Club":
-         plt.imshow(wordcloud, interpolation='bilinear',)
+         plt.imshow(wordcloud_pos, interpolation='bilinear',)
          plt.axis("off")
         
          st.pyplot()

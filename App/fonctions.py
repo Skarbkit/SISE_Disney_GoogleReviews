@@ -11,13 +11,18 @@ import pandas as pd
 import plotly.express as px  # interactive charts
 import plotly.graph_objects as go
 
-def motfreq(df, nbmots):
+def motfreq(df, nbmots, title=''):
+    
     height = df["freq"].head(nbmots)
     bars = df["terme"].head(nbmots)
-
-    fig = go.Figure(data=[go.Bar(x=bars, y=height)])
-    fig.update_layout(xaxis_tickangle=-90)
-    st.plotly_chart(fig)
+    if title !='':
+        fig = go.Figure(data=[go.Bar(x=bars, y=height)])
+        fig.update_layout(xaxis_tickangle=-90,title=title)
+        
+    else:
+        fig = go.Figure(data=[go.Bar(x=bars, y=height)])
+        fig.update_layout(xaxis_tickangle=-90)
+    return st.plotly_chart(fig)
     
 def find_between( s, first, last ):
     try:
@@ -26,7 +31,17 @@ def find_between( s, first, last ):
         return s[start:end]
     except ValueError:
         return ""
+  
+def create_pie(data, values, names, title=''): 
     
+    if title !='':
+        
+        fig = px.pie(data, values=values, names=names,title=title)
+        fig.update_traces(textposition='inside', textinfo='percent+label')
+    else:
+        fig = px.pie(data, values=values, names=names)
+        fig.update_traces(textposition='inside', textinfo='percent+label')
+    return fig
     
 def create_histogram(data, colx, color, title=''):
     if title !='':
@@ -34,3 +49,5 @@ def create_histogram(data, colx, color, title=''):
     else:
         fig = px.histogram(data, x=colx, color=color)
     return fig
+
+
